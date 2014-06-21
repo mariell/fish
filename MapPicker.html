@@ -1,0 +1,75 @@
+<html ng-app="TestApp">
+<head>
+<link rel="stylesheet" href="Bootstrap/css/bootstrap.css" type="text/css" />
+	<title> GSG Version2</title>
+	<script src="js/textfactory.js"></script>
+	<script src="js/createjs.js"></script>
+	<script src="js/Point.js"></script>
+	<script src="js/Rectangle.js"></script>
+	<script src="js/ImageBox.js"></script>
+	<script src="js/Player.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/Node.js"></script>
+	<script src="js/EnemyAIScript/ENEMY.js"></script>
+	<script src="js/EnemyAIScript/LightBox.js"></script>
+	<script src="js/EnemyAIScript/LightBoxProperty.js"></script>
+	<script src="js/Map/MapDataBase.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="Bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.11.0.js"></script>
+	<script src="js/mapstage.js"></script>
+
+
+</head>
+<body onload="loadAssets()" ng-controller="Lobby">
+<div class="container">
+	 <div class="well well-lg">
+           Pick a Stage
+            <span class="dropdown" on-toggle="toggled(open)">
+     			 <a href class="dropdown-toggle">
+       {{selecteditem}}
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="choice in listing">
+          <a href ng-click="SelectedMap(choice.id)">{{choice.mapscript}}</a>
+        </li>
+      </ul>
+    </span>
+
+    <a onClick="PlayButton()" class="btn btn-default">Play</a>
+     </div>
+    <canvas id="GSG" width="1024" height="768"></canvas>
+    <button ng-click="Stop()"> {{text}}</button>
+</div>
+    <script>
+    var lvlselected=0;
+    	var app = angular.module('TestApp', ["ui.bootstrap"]);
+    	app.controller("Lobby", function($scope) {
+    		$scope.text="Stop";
+    		$scope.Stop = function(){
+    			 if(playing){
+			        playing=false;
+			        $scope.text="Play"
+			    createjs.Sound.stop("Music");
+			    }else{
+			        playing=true;
+			        $scope.text="Stop";
+			        createjs.Sound.play("Music",{loop:-1});
+			    }
+    		}
+    		$scope.SelectedMap = function(id){
+    			//alert(id);
+    			lvlselected=id;
+    			$scope.selecteditem=$scope.listing[id].mapscript;
+    			currentmap=mapdatabase.getLevel(id);
+    		}
+    		$scope.selecteditem = "Pick A stage";
+    		$scope.listing  = new Array();
+    	});
+    	function PlayButton(){
+    		window.location="Game.html?SelectedLevel="+lvlselected;
+    	}
+    </script>
+</body>
+</html>

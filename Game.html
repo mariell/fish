@@ -1,0 +1,63 @@
+<html ng-app="TestApp">
+<head>
+	<title> GSG Version2</title>
+	<script src="js/textfactory.js"></script>
+	<script src="js/createjs.js"></script>
+	<script src="js/Point.js"></script>
+	<script src="js/Rectangle.js"></script>
+	<script src="js/ImageBox.js"></script>
+	<script src="js/Player.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/Node.js"></script>
+	<script src="js/EnemyAIScript/ENEMY.js"></script>
+	<script src="js/EnemyAIScript/LightBox.js"></script>
+	<script src="js/EnemyAIScript/LightBoxProperty.js"></script>
+	<script src="js/Map/MapDataBase.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/script.js"></script>
+
+
+</head>
+<body onload="onBodyLoad()" ng-controller="Lobby">
+    <canvas id="GSG" width="1024" height="768"></canvas>
+    <button ng-click="Stop()"> {{text}}</button>
+    <script>
+    	var app = angular.module('TestApp', []);
+    	app.controller("Lobby", function($scope) {
+    		$scope.text="Stop";
+    		$scope.Stop = function(){
+    			 if(playing){
+			        playing=false;
+			        $scope.text="Play"
+			    createjs.Sound.stop("Music");
+			    }else{
+			        playing=true;
+			        $scope.text="Stop";
+			        createjs.Sound.play("Music",{loop:-1});
+			    }
+    		}
+    	});
+
+    	function onBodyLoad(){
+
+    		loadLevel();
+			loadAssets();	
+    	}
+    	function loadLevel(){
+    			var location= window.location.href;
+    			console.log(location.indexOf("?"));
+    			if(location.indexOf("?")!=-1){
+    				var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+					var vars = [],hash;
+					    for(var i=0;i<hashes.length;i++){
+					        hash=hashes[i].split("=");
+					        vars.push(hash[0]);
+					        vars[hash[0]]=hash[1];
+					    }
+					    currentmapcounter=vars["SelectedLevel"];
+					    console.log(currentmapcounter);
+    			}
+    	}
+    </script>
+</body>
+</html>

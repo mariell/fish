@@ -1,0 +1,7 @@
+Patch Note
+
+June 15 2014
+3 Levels are added
+Fixed bugs that allowed several the bot to move 2 times faster then actually is suggested
+Added a map selector so you don't have to adjust anything in code.
+Will be working on adding more maps if you guy want them
