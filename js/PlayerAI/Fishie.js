@@ -1,5 +1,5 @@
 function Move (player, direction){
-	
+	//hi i made a comment
 }
 
 function TestBot(){
