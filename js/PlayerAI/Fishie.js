@@ -72,9 +72,9 @@ function TestBot(){
 	this.getSurroundings = function(maplayout, player){
 
 	}
-	this.Node = function(pos, g, h, pIndex){
-		this.x = pos.getX();
-		this.y = pos.getY();
+	this.Node = function(x, y, g, h, pIndex){
+		this.x = x;
+		this.y = y;
 		this.g = g;
 		this.h = h;
 		this.pIndex = pIndex; 
@@ -88,21 +88,18 @@ function TestBot(){
 
 	}
 
-	this.astarrrrrrrrrrrrrrrr = function(start, destination)
+	this.astarrrrrrrrrrrrrrrr = function(maplayout, player, enemy, end, columns, rows)
  	{
- 		var columns = board.length;
-  		var rows = board[0].length;
-
 
   		// Create start and destination as true nodes
- 		start = new this.Node(start[0], start[1], -1, -1, -1, -1);
-  		destination = new this.Node(destination[0], destination[1], -1, -1, -1, -1);
+ 		start = new this.Node(player.getx(),player.getY(), -1, -1, -1);
+  		destination = new this.Node(end.getX(), end.getY(), -1, -1, -1);
  		
   		var open = []; // List of open nodes (nodes to be inspected)
  		var closed = []; // List of closed nodes (nodes we've already inspected)
   		
   		var g = 0; // Cost from start to current node
-  		var h = this.heuristic(start, destination); // Cost from current node to destination
+  		var h = 0 //this.heuristic(start, destination); // Cost from current node to destination
   		// Cost from start to destination going through the current node
  		
   		// Push the start node onto the list of open nodes
@@ -115,14 +112,14 @@ function TestBot(){
   			
   			// Alternately, you could simply keep the open list sorted by f value lowest to highest,
   			// in which case you always use the first node
-  			var best_cost = open[i].g + open[i].h;
+  			var best_cost = open[i].g + 0 //open[i].h;
  			var best_node = 0; //contains the index of the node with the best cost
   			
   			for (var i = 1; i < open.length; i++)
   			{
-  				if (open[i].g + open[i].h< best_cost)
+  				if (open[i].g + 0 /*open[i].h*/ < best_cost)
   				{
-  					best_cost = open[i].g + open[i].h;
+  					best_cost = open[i].g 0;//+ open[i].h;
   					best_node = i;
   				}
   			}
@@ -136,13 +133,13 @@ function TestBot(){
   				var path = [destination]; //Initialize the path with the destination node
   
  				// Go up the chain to recreate the path 
-  				while (current_node.parent_index != -1)
+  				while (current_node.pIndex != -1)
  				{
-  					current_node = closed[current_node.parent_index];
+  					current_node = closed[current_node.pIndex];
   					path.unshift(current_node);
   				}
   
-  				return path;
+  				return path; //returns the whole path that the bot took to reach the destination
   			}
   			
   			// Remove the current node from our open list
@@ -160,13 +157,13 @@ function TestBot(){
  					{
  						// See if the node is already in our closed list. If so, skip it.
  						var found_in_closed = false;
- 						for (var i in closed)
+ 						for (var i in closed){
  							if (closed[i].x == new_node_x && closed[i].y == new_node_y)
  							{
  								found_in_closed = true;
  								break;
  							}
-				
+ 						}
  						if (found_in_closed)
  							continue;
  						
@@ -181,10 +178,10 @@ function TestBot(){
  						
  						if (!found_in_open)
  						{
- 							var new_node = new this.Node(new_node_x, new_node_y, closed.length-1, -1, -1, -1);
+ 							var new_node = new this.Node(new_node_x, new_node_y, -1, -1, closed.length-1);
  
  							new_node.g = current_node.g + Math.floor(Math.sqrt(Math.pow(new_node.x-current_node.x, 2)+Math.pow(new_node.y-current_node.y, 2)));
- 							new_node.h = this.heuristic(new_node, destination);
+ 							new_node.h = 0//this.heuristic(new_node, destination);
  							new_node.f = new_node.g+new_node.h;
  
  							open.push(new_node);
